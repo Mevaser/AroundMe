@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    {% include 'preview_template.html' %}
+
+    <title>404</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Cabin:400,700" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Varela' rel='stylesheet' type='text/css'>
+
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/404.css') }}" />
+</head>
+
+<body dir="rtl">
+    <div id="notfound">
+        <div class="notfound">
+            <div class="notfound-404">
+                <div></div>
+                <h1>404</h1>
+                <h1>404</h1>
+                <h1>404</h1>
+            </div>
+            <div></div>
+            <h2>איפה אני?</h2>
+            <h2>איפה אני?</h2>
+            <h2>איפה אני?</h2>
+            <div> <a href="{{ url_for('home') }}">מסך הבית</a></div>
+        </div>
+    </div>
+
+    <script src="https://ajax.cloudflare.com/cdn-cgi/scripts/7089c43e/cloudflare-static/rocket-loader.min.js" data-cf-settings="340c7deee9d05b6f5e9d03a1-|49" defer=""></script>
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/get_location.css') }}">
+    <title>המרחב האישי</title>
+    {% include 'preview_template.html' %}
+</head>
+
+<body dir="rtl" style="background-image: url({{ url_for('static', filename='img/background.jpg') }});">
+
+    <div id="info-container">
+        <img src="{{url_for('static', filename='favicon_transparent.png')}}" style="display: block; margin-left: auto; margin-right: auto; width: 20%; height: auto; " />
+        <div id="title">המרחב האישי</div>
+        <div id="description">עד לאיפה מותר לי ללכת?</br> הכנס כתובת \ הפעל איתור אוטומטי</div>
+        <form id="form-execute" action="{{ url_for('map') }}" method="get">
+
+            <div id="result" style="color: #D8000C"> נא להיכנס מהמובייל</div>
+        </form>
+    </div>
+</body>
+
+</html>

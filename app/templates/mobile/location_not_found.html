@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile/location_not_found.css') }}">
+    <title>המרחב האישי</title>
+    {% include 'preview_template.html' %}
+</head>
+
+<body dir="rtl" style="background-image: url({{ url_for('static', filename='img/background.jpg') }});">
+
+    <div id="info-container">
+        <img src="{{url_for('static', filename='favicon_transparent.png')}}" style="display: block; margin-top: 10%; margin-left: auto; margin-right: auto; width: 30%; height: auto; " />
+        <div id="title">המרחב האישי</div>
+        <div id="description">עד לאיפה מותר לי ללכת?</div>
+        <form id="form-execute" action="{{ url_for('home') }}" method="get">
+
+            <div id="result">לא ניתן להכין מפה, וודא שאפשרות המיקום דלוקה במכשיר והכנס כתובת
+            </div>
+            <input class=button id="locate" type="submit" value="חזרה לדף הראשי" />
+        </form>
+    </div>
+</body>
+
+</html>

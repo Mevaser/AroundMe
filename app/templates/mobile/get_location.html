@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile/get_location.css') }}">
+    <title>המרחב האישי</title>
+
+    {% include 'preview_template.html' %}
+</head>
+
+<body dir="rtl" style="background-image: url({{ url_for('static', filename='img/background.jpg') }});height: 100%;">
+
+    <div id="info-container">
+        <img src="{{url_for('static', filename='favicon_transparent.png')}}" style="display: block; margin-top: 10%; margin-left: auto; margin-right: auto; width: 30%; height: auto; " />
+        <div id="title">המרחב האישי</div>
+        <div id="description">עד לאיפה מותר לי ללכת?</div>
+        <form id="form-execute" action="{{ url_for('map') }}" method="get" onsubmit="return checkForm();">
+
+            <div id="result">הכנס את כתובת ביתך ובדוק אם אתה נמצא כרגע בטווח 500 מטר
+            </div>
+
+            <input id="geocomplete" type="text" placeholder="הכנס כתובת" />
+            <input id="lat" name="lat" type="text" value="" style="display:none">
+            <input id="lng" name="lng" type="text" value="" style="display:none">
+            <input id="currLat" name="currLat" type="text" value="" style="display:none">
+            <input id="currLng" name="currLng" type="text" value="" style="display:none">
+            <input class=button id="locate" type="submit" value="אישור" />
+        </form>
+    </div>
+    <script>
+        function checkForm() {
+            if (document.getElementById("currLat").value === '' || document.getElementById("currLng").value === '' || document.getElementById("lat").value === '' || document.getElementById("lng").value === '') {
+                alert("לא ניתן להכין מפה, וודא שאפשרות המיקום דלוקה בהגדרות המכשיר והכנס כתובת");
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </script>
+    <script>
+        document.getElementById("geocomplete").addEventListener("change", changeResult);
+
+        function changeResult() {
+            document.getElementById("result").innerText = "מיקום: " + document.getElementsByClassName("pac-item-query")[0].innerText;
+            document.getElementById("result").innerHTML += ",<br> אשר הרשאת מיקום על מנת לאתר את מיקומך הנוכחי";
+            locateCurrentLocation();
+        }
+
+        // Set up global variable
+        var result;
+
+        function locateCurrentLocation() {
+            // Store the element where the page displays the result
+            result = document.getElementById("result");
+
+            // If geolocation is available, try to get the visitor's position
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+                result.innerHTML = "מאתר";
+            } else {
+                alert("הדפדפן לא תומך באפשרות המיקום");
+            }
+        };
+
+        // Define callback function for successful attempt
+        function successCallback(position) {
+            document.getElementById("currLat").value = position.coords.latitude;
+            document.getElementById("currLng").value = position.coords.longitude;
+
+            result.innerHTML = "<span style='color: #4CAF50;'>המיקום אותר וודא שהכנסת כתובת ולחץ אישור </span>";
+        }
+
+        // Define callback function for failed attempt
+        function errorCallback(error) {
+            if (error.code == 1) {
+                result.innerHTML = "הרשאת מיקום לא ניתנה,הפעל הרשאת מיקום בהגדרות המכשיר ורענן";
+            } else if (error.code == 2) {
+                result.innerHTML = "אין חיבור לאינטרנט.";
+            } else if (error.code == 3) {
+                result.innerHTML = "The attempt timed out before it could get the location data.";
+            } else {
+                result.innerHTML = "Geolocation failed due to unknown error.";
+            }
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2oNWKWVroqxlJDjpgiRM-na9_YfI0Zhk&amp;libraries=places "></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js "></script>
+    <script src="{{ url_for( 'static', filename='js/jquery.geocomplete.js' ) }} "></script>
+    <script>
+        $(function() {
+            var options = {
+                details: "form",
+                geocodeAfterResult: true
+            };
+            $("#geocomplete").geocomplete(options);
+
+            $("#locate").click(function() {
+                $("#geocomplete").trigger("geocode");
+                locateCurrentLocation();
+            });
+        });
+    </script>
+</body>
+
+</html>
